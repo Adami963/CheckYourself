@@ -1,0 +1,2 @@
+# CheckYourself
+Chess terminal game
