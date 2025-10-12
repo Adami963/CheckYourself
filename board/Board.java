@@ -1,6 +1,6 @@
-package chess.board;
+package Board;
 
-import chess.pieces.*;
+import pieces.*;
 
 /**
  * 8x8 board that stores pieces and can print itself.

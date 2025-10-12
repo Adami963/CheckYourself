@@ -1,4 +1,4 @@
-package chess.pieces;
+package pieces;
 
 /**
  * Simple piece colors. Nothing fancy.

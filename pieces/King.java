@@ -1,7 +1,7 @@
-package chess.pieces;
+package pieces;
 
-import chess.board.Board;
-import chess.board.Position;
+import Board.Board;
+import Board.Position;
 import java.util.Collections;
 import java.util.List;
 
