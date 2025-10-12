@@ -49,16 +49,14 @@ public class Notation {
      * --> Example: "E2" -> [row=6, col=4]
      */
     public static int[] toRowCol(String sq){
-        char file = Character.toUpperCase(s.charAt(0));     //letter: A..H
-        char rank = s.charAt(1);        //digit: 1..8
+        char file = Character.toUpperCase(sq.charAt(0));     //letter: A..H
+        char rank = sq.charAt(1);        //digit: 1..8
 
         int col = file - 'A';       //A -> 0, B -> 1...H->7
         int rowFromBottom = rank - 1;       //'1' -> 0 ... '8' --> 7
         int row = 7 - rowFromBottom; //flip order --> '8' -> 0
 
-        int newPosition = new int[] {row, col};
-
-        return newPosition;
+        return new int[] {row, col};
     }//int[] toRowCol
 
     /*
@@ -68,35 +66,8 @@ public class Notation {
     public static String fromRowCol(int row, int col){
         char file = (char) ('A' + col);     //0 --> 'A', 1 --> 'B', ..., 7 --> 'H'
         char rank = (char)('8' - row);      // 0 --> '8', 1 --> '7', ..., 7 --> '1'
-        int styledPos = " " + file + rank;
 
-        return styledPos;
+        return " " + file + rank;
     }//String fromRowCol
     
 }//class Notation
-package chess.utils;
-
-import chess.board.Position;
-
-/**
- * Utility helpers for parsing input and validating basic formats.
- */
-public final class Utils {
-    private Utils() {}
-
-    /**
-     * Validates a basic move string like "E2 E4". Case-insensitive.
-     */
-    public static boolean isBasicMoveFormat(String input) {
-        if (input == null) return false;
-        String[] parts = input.trim().split("\s+");
-        if (parts.length != 2) return false;
-        try {
-            Position.fromSquare(parts[0]);
-            Position.fromSquare(parts[1]);
-            return true;
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
-    }
-}
