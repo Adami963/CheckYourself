@@ -2,16 +2,16 @@
  * This is the Bishop piece
  * Does the Diagonal movement
  */
-package Pieces;
-
+package pieces;
 import java.util.ArrayList;
 import java.util.List;
 
-import utils.PositionUtils;
+import Board.Position;
 
-public class Bishop extends Pieces {
 
-    public Bishop(Color color, PositionUtils position){
+public class Bishop extends Piece {
+
+    public Bishop(Color color, Position position){
         super(color,position);
     }
 
@@ -19,8 +19,8 @@ public class Bishop extends Pieces {
      * All possible moves for the bishop
      */
     @Override
-    public List<PositionUtils> possibleMove() {
-       List<PositionUtils> moves = new ArrayList<>();
+    public List<Position> possibleMove() {
+       List<Position> moves = new ArrayList<>();
 
        int currentRow = position.getRow();
        int currentCol = position.getColumn();
@@ -29,18 +29,18 @@ public class Bishop extends Pieces {
         * all four diagonal directions for the bishop
         */
        for(int i = 1; currentRow - i >= 0 && currentCol - i >= 0; i++){
-        moves.add(new PositionUtils(currentRow - i , currentCol - i));
+        moves.add(new Position(currentRow - i , currentCol - i));
        }
 
        for(int i = 1; currentRow - i >= 0 && currentCol + i < 8; i++){
-        moves.add(new PositionUtils(currentRow - i, currentCol + i));
+        moves.add(new Position(currentRow - i, currentCol + i));
        }
        
        for(int i = 1; currentRow + i < 8 && currentCol - i >= 0; i++){
-        moves.add(new PositionUtils(currentRow + i, currentCol - i));
+        moves.add(new Position(currentRow + i, currentCol - i));
        }
        for(int i = 1; currentRow + i < 8 && currentCol + i < 8; i++){
-        moves.add(new PositionUtils(currentRow + i, currentCol + i));
+        moves.add(new Position(currentRow + i, currentCol + i));
        }
 
 

@@ -3,15 +3,15 @@
  * special forward move, diagonal caputes and special abilities
  */
 
-package Pieces;
+package pieces;
 import java.util.ArrayList;
 import java.util.List;
 
-import utils.PositionUtils;
+import Board.Position;
 
-public class Pawn extends Pieces{
+public class Pawn extends Piece{
     
-    public Pawn(Color color, PositionUtils position){
+    public Pawn(Color color, Position position){
         super(color, position);
     }
 
@@ -19,8 +19,8 @@ public class Pawn extends Pieces{
     * All possible pawn moves
     */
     @Override
-    public List<PositionUtils> possibleMove() {
-        List<PositionUtils> moves = new ArrayList<>();
+    public List<Position> possibleMove() {
+        List<Position> moves = new ArrayList<>();
 
         int currentRow = position.getRow();
         int currentCol = position.getColumn();
@@ -64,10 +64,10 @@ public class Pawn extends Pieces{
      * @param direction movement in a specific direction
      * @param squares number of squares to move forward
      */
-    private void addForwardMove(List<PositionUtils> moves, int currentRow, int currentCol, int direction, int squares){
+    private void addForwardMove(List<Position> moves, int currentRow, int currentCol, int direction, int squares){
         int newRow = currentRow + (direction * squares);
         if(newRow >= 0 && newRow < 8){
-            moves.add(new PositionUtils(newRow, currentCol));
+            moves.add(new Position(newRow, currentCol));
         }
     }
 
@@ -79,20 +79,20 @@ public class Pawn extends Pieces{
      * @param currentCol position
      * @param direction movement
      */
-     private void addCaptureMoves(List<PositionUtils> moves, int currentRow, int currentCol, int direction){
+     private void addCaptureMoves(List<Position> moves, int currentRow, int currentCol, int direction){
         int newRow = currentRow + direction;
         
         /**
          * left diagonal caputure
          */
         if(currentCol > 0){
-            moves.add(new PositionUtils(newRow, currentCol - 1));
+            moves.add(new Position(newRow, currentCol - 1));
         }
         /**
          * right diagonal caputure
          */
         if(currentCol < 7){
-            moves.add(new PositionUtils(newRow, currentCol + 1));
+            moves.add(new Position(newRow, currentCol + 1));
         }
     }
 

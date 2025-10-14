@@ -1,16 +1,17 @@
-package Pieces;
+package pieces;
 
-import utils.PositionUtils;
 import java.util.List;
+
+import Board.Position;
 
 /**
  * represents the chess piece
  * base class for all chess pieces
  */
 
-public abstract class Pieces{
+public abstract class Piece{
     protected Color color ; 
-    protected PositionUtils position;
+    protected Position position;
     protected boolean  hasMoved;
     
 
@@ -19,7 +20,7 @@ public abstract class Pieces{
      * Color is the color of the piece
      * Position is the position of the piece
      */
-    public Pieces(Color color, PositionUtils position){
+    public Piece(Color color, Position position){
         this.color = color;
         this.position = position;
         this.hasMoved = false;
@@ -29,13 +30,13 @@ public abstract class Pieces{
      * Calculates all possible moves for a chess piece from its current position
      * @returns a list of all possible positions this piece can move to
      */
-    public abstract List<PositionUtils> possibleMove();
+    public abstract List<Position> possibleMove();
 
     /*
      * moves piece to a new positon
      * @param newPosition is the destination where the pieces moves to
      */
-    public void move(PositionUtils newPosition){
+    public void move(Position newPosition){
         this.position = newPosition;
         this.hasMoved = true;
     }
@@ -52,9 +53,9 @@ public abstract class Pieces{
 
     public void setColor(Color color) {this.color = color;}
 
-    public PositionUtils getPosition() { return position;}
+    public Position getPosition() { return position;}
     
-    public void setPosition(PositionUtils position) { this.position = position;}
+    public void setPosition(Position position) { this.position = position;}
 
 
     /**

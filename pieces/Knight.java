@@ -2,16 +2,16 @@
  * This is the knight piece
  * Does the L-Shape movement
  */
-package Pieces;
+package pieces;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import utils.PositionUtils;
+import Board.Position;
 
-public class Knight extends Pieces {
+public class Knight extends Piece {
     
-    public Knight(Color color,PositionUtils position){
+    public Knight(Color color,Position position){
         super(color, position);
     }
 
@@ -19,8 +19,8 @@ public class Knight extends Pieces {
      * All possible moves for the Knight
      */
     @Override
-    public List<PositionUtils> possibleMove() {
-       List<PositionUtils> moves = new ArrayList<>();
+    public List<Position> possibleMove() {
+       List<Position> moves = new ArrayList<>();
 
        int currentRow = position.getRow();
        int currentCol = position.getColumn();
@@ -43,7 +43,7 @@ public class Knight extends Pieces {
          * checking if new move is within boundaries
          */
         if(newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8){
-            moves.add(new PositionUtils(newRow, newCol));
+            moves.add(new Position(newRow, newCol));
         }
        }
     

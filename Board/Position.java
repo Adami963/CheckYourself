@@ -1,10 +1,9 @@
-package utils;
-
+package Board;
 
 /*
  * Represents a postion on the chessboard 
  */
-public class PositionUtils {
+public class Position {
     private int row;
     private int column;
 
@@ -13,7 +12,7 @@ public class PositionUtils {
      * Row for the row coordinate
      * Column for the column coordinate
      */
-    public PositionUtils(int row, int column){
+    public Position(int row, int column){
         this.row = row;
         this.column = column;
     }
@@ -22,7 +21,7 @@ public class PositionUtils {
      * Constructor for position class using chess notation
      * chessNotation is the position in chess notation
      */
-    public PositionUtils(String chessNotation){
+    public Position(String chessNotation){
         if(chessNotation.length() != 2){
         throw new IllegalArgumentException("Invalid chess notation: " + chessNotation);
         }
@@ -65,7 +64,7 @@ public class PositionUtils {
         return true;
         if(obj == null || getClass() != obj.getClass()) 
         return false;
-        PositionUtils PositionUtils = (PositionUtils) obj;
+        Position PositionUtils = (Position) obj;
         return row == PositionUtils.row && column == PositionUtils.column;
     }
 

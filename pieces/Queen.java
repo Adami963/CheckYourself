@@ -2,15 +2,15 @@
  * This is the Queen piece
  * combines the rook and bishop logic moves
  */
-package Pieces;
+package pieces;
 import java.util.ArrayList;
 import java.util.List;
 
-import utils.PositionUtils;
+import Board.Position;
 
-public class Queen extends Pieces {
+public class Queen extends Piece {
 
-    public Queen(Color color, PositionUtils position){
+    public Queen(Color color, Position position){
         super(color,position);
     }
 
@@ -18,8 +18,8 @@ public class Queen extends Pieces {
      * All possible moves for the queen
      */
     @Override
-    public List<PositionUtils> possibleMove() {
-        List<PositionUtils> moves = new ArrayList<>();
+    public List<Position> possibleMove() {
+        List<Position> moves = new ArrayList<>();
 
         int currentRow = position.getRow();
         int currentCol = position.getColumn();
@@ -30,13 +30,13 @@ public class Queen extends Pieces {
 
         for(int col = 0; col < 8; col++){
             if(col != currentCol){
-                moves.add(new PositionUtils(currentRow, col));
+                moves.add(new Position(currentRow, col));
             }
         }
         
         for(int row = 0; row < 8; row++){
             if(row!= currentRow){
-                moves.add(new PositionUtils(row, currentCol));
+                moves.add(new Position(row, currentCol));
             }
         }
 
@@ -45,18 +45,18 @@ public class Queen extends Pieces {
          */
 
        for(int i = 1; currentRow - i >= 0 && currentCol - i >= 0; i++){
-        moves.add(new PositionUtils(currentRow - i , currentCol - i));
+        moves.add(new Position(currentRow - i , currentCol - i));
        }
 
        for(int i = 1; currentRow - i >= 0 && currentCol + i < 8; i++){
-        moves.add(new PositionUtils(currentRow - i, currentCol + i));
+        moves.add(new Position(currentRow - i, currentCol + i));
        }
        
        for(int i = 1; currentRow + i < 8 && currentCol - i >= 0; i++){
-        moves.add(new PositionUtils(currentRow + i, currentCol - i));
+        moves.add(new Position(currentRow + i, currentCol - i));
        }
        for(int i = 1; currentRow + i < 8 && currentCol + i < 8; i++){
-        moves.add(new PositionUtils(currentRow + i, currentCol + i));
+        moves.add(new Position(currentRow + i, currentCol + i));
        }
 
        return moves;

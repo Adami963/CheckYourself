@@ -2,17 +2,18 @@
  * This is a Rook piece
  * Only does horizontal and vertical movement 
  */
-package Pieces;
+package pieces;
 
 import java.util.ArrayList;
 import java.util.List;
-import utils.PositionUtils;
 
-public class Rook extends Pieces{
+import Board.Position;
+
+public class Rook extends Piece{
     
 
  
-    public Rook(Color color, PositionUtils position){
+    public Rook(Color color, Position position){
         super(color, position);
     }
 
@@ -22,8 +23,8 @@ public class Rook extends Pieces{
      * All possible Rook moves
      */
     @Override
-    public List<PositionUtils> possibleMove() {
-        List<PositionUtils> moves = new ArrayList<>();
+    public List<Position> possibleMove() {
+        List<Position> moves = new ArrayList<>();
         
         int currentRow = position.getRow();
         int currentCol = position.getColumn();
@@ -33,7 +34,7 @@ public class Rook extends Pieces{
          */
        for(int col = 0; col < 8; col++){
         if(col != currentCol){
-            moves.add(new PositionUtils(currentRow, col));
+            moves.add(new Position(currentRow, col));
         }
        } 
 
@@ -42,7 +43,7 @@ public class Rook extends Pieces{
         */
        for(int row = 0; row < 8; row++){
         if(row != currentRow){
-            moves.add(new PositionUtils(row, currentCol));
+            moves.add(new Position(row, currentCol));
         }
        }
        return moves;

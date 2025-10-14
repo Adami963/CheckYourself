@@ -1,17 +1,17 @@
 /**
  * this is the king piece
  * Similiar to the queens logic but only one square movements */ 
-package Pieces;
+package pieces;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import utils.PositionUtils;
+import Board.Position;
 
-public class King extends Pieces {
+public class King extends Piece {
     
 
-    public King(Color color, PositionUtils position){
+    public King(Color color, Position position){
         super(color, position);
     }
 
@@ -20,8 +20,8 @@ public class King extends Pieces {
      * All possible moves for the king
      */
     @Override
-    public List<PositionUtils> possibleMove(){
-        List<PositionUtils> moves = new ArrayList<>();
+    public List<Position> possibleMove(){
+        List<Position> moves = new ArrayList<>();
         
         int currentRow = position.getRow();
         int currentCol = position.getColumn();
@@ -43,7 +43,7 @@ public class King extends Pieces {
              * if new postion is within boundaries
              */
             if(newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8){
-                moves.add(new PositionUtils(newRow,newCol));
+                moves.add(new Position(newRow,newCol));
             }
         }
 
