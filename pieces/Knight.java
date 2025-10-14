@@ -7,7 +7,7 @@ package pieces;
 import java.util.ArrayList;
 import java.util.List;
 
-import Board.Position;
+import board.Position;
 
 public class Knight extends Piece {
     

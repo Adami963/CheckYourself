@@ -2,7 +2,7 @@ package pieces;
 
 import java.util.List;
 
-import Board.Position;
+import board.Position;
 
 /**
  * represents the chess piece

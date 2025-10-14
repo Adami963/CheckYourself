@@ -1,4 +1,4 @@
-package Board;
+package board;
 
 import pieces.*;
 
@@ -16,7 +16,7 @@ public class Board {
         return grid[pos.getRow()][pos.getColumn()];
     }
 
-    public void setPiece(Position pos, Pawn piece) {
+    public void setPiece(Position pos, Piece piece) {
         grid[pos.getRow()][pos.getColumn()] = piece;
     }
 
@@ -27,7 +27,7 @@ public class Board {
     public boolean movePiece(Position from, Position to) {
         Piece p = getPiece(from);
         if (p == null) return false;
-        setPiece(to, (Pawn) p);    // capture happens automatically if target had a piece
+        setPiece(to, p);    // capture happens automatically if target had a piece
         p.move(to);
         setPiece(from, null);
         return true;
@@ -80,7 +80,7 @@ public class Board {
             for (int c = 0; c < 8; c++) {
                 Piece p = grid[r][c];
                 if (p == null) System.out.print(" ##");
-                else System.out.printf(" %s", p.token());
+                else System.out.printf(" %s", p.getTextRepresentation());
             }
             System.out.printf("  %d%n", rank);
         }

@@ -1,4 +1,4 @@
-package Board;
+package board;
 
 /*
  * Represents a postion on the chessboard 
