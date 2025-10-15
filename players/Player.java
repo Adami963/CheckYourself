@@ -2,12 +2,12 @@ package players;
 
 import pieces.Color;
 import pieces.Piece;
-import utils.Notation;
+import Utils.Notation;
 
 import java.util.Scanner;
 
-import Board.Board;
-import Board.Position;
+import board.Board;
+import board.Position;
 
 /*
  * Player-Driven console

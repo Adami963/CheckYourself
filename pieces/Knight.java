@@ -1,23 +1,66 @@
+/**
+ * This is the knight piece
+ * Does the L-Shape movement
+ */
 package pieces;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
-import Board.Board;
-import Board.Position;
+import board.Position;
 
-/**
- * Knight: rules coming later. For now it just exists and prints a token.
- */
 public class Knight extends Piece {
-    public Knight(Color color, Position position) {
+    
+    public Knight(Color color,Position position){
         super(color, position);
     }
-    @Override public String token() {
-        return (color == Color.WHITE ? "w" : "b") + "N";
+
+    /**
+     * All possible moves for the Knight
+     */
+    @Override
+    public List<Position> possibleMove() {
+       List<Position> moves = new ArrayList<>();
+
+       int currentRow = position.getRow();
+       int currentCol = position.getColumn();
+
+       /**
+        * All L-Shape moves
+        */
+       int [][] knightMoves = {
+        {-2,-1}, {-2,1}, {-1,-2},{-1,2},{1,-2},{1,2},{2,-1},{2,1}
+       };
+       
+       /**
+        * Checking each move 
+        */
+       for(int[] move : knightMoves){
+        int newRow = currentRow + move[0];
+        int newCol = currentCol + move[1];
+
+        /**
+         * checking if new move is within boundaries
+         */
+        if(newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8){
+            moves.add(new Position(newRow, newCol));
+        }
+       }
+    
+       return moves;
+
     }
-    @Override public List<Position> possibleMoves(Board board) {
-        // TODO Phase 2/3: add real Knight moves
-        return Collections.emptyList();
+
+
+    /**
+     * our text representation of the knight
+     * @return "wKN" for white, "bKN" for black
+     */
+    @Override
+    public String getTextRepresentation(){
+        return(color == Color.WHITE ? "w" : "b") + "KN";
     }
+
+    
 }
+  

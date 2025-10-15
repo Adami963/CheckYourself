@@ -1,4 +1,4 @@
-package utils;
+package Utils;
 
 /*
  * Notation: tiny utility for converting between chess notation ("E2")
