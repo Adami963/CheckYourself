@@ -1,9 +1,10 @@
-package Board;
+package board;
 
 import players.Player;
-import pieces.Color;
 
 import java.util.Scanner;
+
+import pieces.Color;
 
 /*
  * JOB: coordinates board + 2 players & runs the main loop 
