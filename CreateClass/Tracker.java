@@ -1,21 +1,22 @@
+package createClass;
 public class Tracker {
-    int addCount;
-    int removeCount;
-    int rem;
-    String item;
-    boolean completed;
+    private int addCount;
+    private int removeCount;
+    private int rem;
+    private String item;
+    private boolean completed;
 
     //DEFAULT CONSTRUCTOR
-    Tracker(){
-        addCount = 0;
-        removeCount = 0;
-        rem = 0;
-        item = " ";
-        completed = false;
+    public Tracker(){
+        this.addCount = 0;
+        this.removeCount = 0;
+        this.rem = 0;
+        this.item = " ";
+        this.completed = false;
     }
 
     //CONSTRUCTOR W/ PARAMETERS
-    Tracker(int addCount, int removeCount, int rem, String item, Boolean completed){
+    public Tracker(int addCount, int removeCount, int rem, String item, Boolean completed){
         this.addCount = addCount;
         this.removeCount = removeCount;
         this.rem = rem;
@@ -28,17 +29,22 @@ public class Tracker {
         return addCount;
     }
 
-    public boolean getCompleted(){
-        //will display whether item wass completed
-        return false;
+    public int getRemoveCount(){
+        return removeCount;
     }
 
-    public int getRemainingItems(int rem){
+     public int getRemainingItems(int rem){
         //will use initCount + addItems - completed to identify what is left
         return rem;
     }
+
     public String getItem(){
         return item;
+    }
+
+    public boolean getCompleted(){
+        //will display whether item wass completed
+        return false;
     }
     
     //SETTERS
@@ -57,6 +63,14 @@ public class Tracker {
     }
     public void setCompleted(boolean completed){
         this.completed = completed;
+    }
+
+    //INCREMENT + 1
+    public void incAdd(){
+        this.addCount++;
+    }
+    public void incRemove(){
+        this.removeCount++;
     }
     
 }//end of class

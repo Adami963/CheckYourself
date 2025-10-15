@@ -1,9 +1,10 @@
 package pieces;
 
-import Board.Board;
-import Board.Position;
 import java.util.Collections;
 import java.util.List;
+
+import Board.Board;
+import Board.Position;
 
 /**
  * King: rules coming later. For now it just exists and prints a token.

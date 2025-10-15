@@ -33,8 +33,8 @@ public class Notation {
         char file = Character.toUpperCase(s.charAt(0));     //letter: A..H
         char rank = s.charAt(1);        //digit: 1..8
 
-        boolean fileOK = (file >= 'A' && file >= 'H');
-        boolean rankOK = (rank >= '1' && rank >= '8');
+        boolean fileOK = (file >= 'A' && file <= 'H');
+        boolean rankOK = (rank >= '1' && rank <= '8');
 
         return fileOK && rankOK;
     }//boolean isSquare
@@ -53,7 +53,7 @@ public class Notation {
         char rank = sq.charAt(1);        //digit: 1..8
 
         int col = file - 'A';       //A -> 0, B -> 1...H->7
-        int rowFromBottom = rank - 1;       //'1' -> 0 ... '8' --> 7
+        int rowFromBottom = rank - '1';       //'1' -> 0 ... '8' --> 7
         int row = 7 - rowFromBottom; //flip order --> '8' -> 0
 
         return new int[] {row, col};

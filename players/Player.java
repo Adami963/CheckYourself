@@ -1,12 +1,13 @@
 package players;
 
-import Board.Board;
-import Board.Position;
 import pieces.Color;
 import pieces.Piece;
 import utils.Notation;
 
 import java.util.Scanner;
+
+import Board.Board;
+import Board.Position;
 
 /*
  * Player-Driven console
@@ -96,7 +97,7 @@ public class Player {
             //CHECKPOINT: piece must exist at [FROM]
             Piece pieceAtFrom = board.getPiece(from);
             if(pieceAtFrom == null){
-                System.out.println("No piece on " + ". Try again!");
+                System.out.println("No piece on " + fromText + ". Try again!");
             }//end of if FROM EMPTY
 
             //CHECKPOINT: piece must be current player's piece

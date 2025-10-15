@@ -1,8 +1,9 @@
 package pieces;
 
+import java.util.List;
+
 import Board.Board;
 import Board.Position;
-import java.util.List;
 
 /**
  * Base class for all chess pieces.
