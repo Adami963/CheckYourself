@@ -8,12 +8,12 @@ Team: Adami, Jennifer, and Abraham
 
 #To compile and run on macOS/Linux:
 
-javac createClass/Tracker.java Main.java
+javac utils/_.java pieces/_.java Board/_.java players _.java App.java
 
-java Main
+java App
 
 #To compile and run on Windows:
 
-javac createClass\Tracker.java Main.java
+javac utils\*.java pieces\*.java Board\*.java players\*.java App.java
 
-java Main
+java App
