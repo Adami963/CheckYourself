@@ -2,76 +2,37 @@ package pieces;
 
 import java.util.List;
 
-import board.Position;
+import Board.Board;
+import Board.Position;
 
 /**
- * represents the chess piece
- * base class for all chess pieces
+ * Base class for all chess pieces.
+ * We keep shared stuff here: color + where the piece is.
+ * Real move rules get handled by the subclasses later.
  */
-
-public abstract class Piece{
-    protected Color color ; 
+public abstract class Piece {
+    protected final Color color;
     protected Position position;
-    protected boolean  hasMoved;
-    
 
-    /**
-     * Constructor for class pieces
-     * Color is the color of the piece
-     * Position is the position of the piece
-     */
-    public Piece(Color color, Position position){
+    protected Piece(Color color, Position position) {
         this.color = color;
         this.position = position;
-        this.hasMoved = false;
     }
 
-    /*
-     * Calculates all possible moves for a chess piece from its current position
-     * @returns a list of all possible positions this piece can move to
-     */
-    public abstract List<Position> possibleMove();
+    public Color getColor() { return color; }
+    public Position getPosition() { return position; }
 
-    /*
-     * moves piece to a new positon
-     * @param newPosition is the destination where the pieces moves to
-     */
-    public void move(Position newPosition){
-        this.position = newPosition;
-        this.hasMoved = true;
-    }
-
-    /*
-     * the text representation of the piece
-     */
-    public abstract String getTextRepresentation();
-
-    /*
-     * Getters & Setters
-     */
-    public Color getColor(){ return color; }
-
-    public void setColor(Color color) {this.color = color;}
-
-    public Position getPosition() { return position;}
-    
-    public void setPosition(Position position) { this.position = position;}
-
+    /** Two-letter code for printing to console. Example: wP, bK. */
+    public abstract String token();
 
     /**
-     * checks if the piece has moved from its insitial spot
-     * @return true if peice has moved or false if it hasnt
+     * Where can this piece go? For Phase 1, we just return an empty list
+     * and fill this in during the rules phase.
      */
-    public boolean hasMoved(){ return hasMoved; }
+    public abstract List<Position> possibleMoves(Board board);
 
-    public void sethasMoved(boolean hasMoved) { this.hasMoved = hasMoved; }
-
-    @Override
-    public String toString(){
-        return getTextRepresentation() + " at " + position.toChessNotation();
+    /** Board calls this when it actually moves a piece. */
+    public void moveTo(Position newPosition) {
+        this.position = newPosition;
     }
-
-
-
-
 }

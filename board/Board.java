@@ -1,4 +1,4 @@
-package board;
+package Board;
 
 import pieces.*;
 
@@ -28,7 +28,7 @@ public class Board {
         Piece p = getPiece(from);
         if (p == null) return false;
         setPiece(to, p);    // capture happens automatically if target had a piece
-        p.move(to);
+        p.moveTo(to);
         setPiece(from, null);
         return true;
     }
@@ -80,7 +80,7 @@ public class Board {
             for (int c = 0; c < 8; c++) {
                 Piece p = grid[r][c];
                 if (p == null) System.out.print(" ##");
-                else System.out.printf(" %s", p.getTextRepresentation());
+                else System.out.printf(" %s", p.token());
             }
             System.out.printf("  %d%n", rank);
         }

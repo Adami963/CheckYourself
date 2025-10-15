@@ -1,76 +1,62 @@
-package board;
+package Board;
 
-/*
- * Represents a postion on the chessboard 
- */
-public class Position {
-    private int row;
-    private int column;
-
-    /*
-     * Constructor for position class
-     * Row for the row coordinate
-     * Column for the column coordinate
-     */
-    public Position(int row, int column){
-        this.row = row;
-        this.column = column;
-    }
-
-    /*
-     * Constructor for position class using chess notation
-     * chessNotation is the position in chess notation
-     */
-    public Position(String chessNotation){
-        if(chessNotation.length() != 2){
-        throw new IllegalArgumentException("Invalid chess notation: " + chessNotation);
-        }
-        char columnChar = chessNotation.charAt(0);
-        char rowChar = chessNotation.charAt(1);
-
-        this.column = columnChar - 'A';
-        this.row = 8 - (rowChar - '0');
-    }
-
-    /*
-     * Getters & Setters
-     */
-    public int getRow() {
-        return row;
-    }
-    public void setRow(int row){
-        this.row = row;
-    }
-    public int getColumn(){
-        return column;
-    }
-    public void setColumn(int column){
-        this.column = column;
-    }
-
-    /*
-     * position to chess notation
-     * @return the position in chess notation
-     */
-    public String toChessNotation(){
-        char columnChar = (char) ('A' + column);
-        int rowNumber = 8 - row;
-        return "" + columnChar + rowNumber;
-    }
-
-    @Override
-    public boolean equals(Object obj){
-        if(this == obj) 
-        return true;
-        if(obj == null || getClass() != obj.getClass()) 
-        return false;
-        Position PositionUtils = (Position) obj;
-        return row == PositionUtils.row && column == PositionUtils.column;
-    }
-
-    @Override
-    public String toString(){
-        return toChessNotation();
-    }
     
+/**
+ * Immutable board coordinate using 0-based row and column.
+ * Row 0 is rank 8, row 7 is rank 1.
+ * Column 0 is file A, column 7 is file H.
+ */
+public final class Position {
+    private final int row;
+    private final int column;
+
+    /**
+     * Constructs a Position.
+     * @param row 0..7 (0 is top / rank 8)
+     * @param column 0..7 (0 is file A)
+     */
+    public Position(int row, int column) {
+        if (row < 0 || row > 7 || column < 0 || column > 7) {
+            throw new IllegalArgumentException("row/column must be in 0..7");
+        }
+        this.row = row;
+        this.column = column;
+    }
+
+    public int getRow() { return row; }
+    public int getColumn() { return column; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Position)) return false;
+        Position other = (Position) o;
+        return this.row == other.row && this.column == other.column;
+    }
+
+    @Override
+    public int hashCode() { return 31 * row + column; }
+
+    @Override
+    public String toString() {
+        char file = (char)('A' + column);
+        int rank = 8 - row;
+        return "" + file + rank;
+    }
+
+    /**
+     * Parses standard algebraic squares like "E2". Case-insensitive.
+     */
+    public static Position fromSquare(String square) {
+        if (square == null || square.length() != 2) {
+            throw new IllegalArgumentException("Square must be like E2");
+        }
+        char file = Character.toUpperCase(square.charAt(0));
+        char rank = square.charAt(1);
+        if (file < 'A' || file > 'H' || rank < '1' || rank > '8') {
+            throw new IllegalArgumentException("Square must be A1..H8");
+        }
+        int column = file - 'A';
+        int row = 8 - (rank - '0');
+        return new Position(row, column);
+    }
 }
