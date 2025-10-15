@@ -1,4 +1,4 @@
-import Board.Game;
+import board.Game;
 
 /*
  * PURPOSE: 

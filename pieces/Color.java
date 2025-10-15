@@ -1,5 +1,4 @@
 package pieces;
-
 /**
  * Simple piece colors. Nothing fancy.
  */
