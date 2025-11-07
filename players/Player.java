@@ -2,7 +2,7 @@ package players;
 
 import pieces.Color;
 import pieces.Piece;
-import Utils.Notation;
+import utils.Notation;
 
 import java.util.Scanner;
 
