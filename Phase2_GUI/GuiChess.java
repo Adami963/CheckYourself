@@ -81,7 +81,7 @@ public class GUIChess extends JFrame{
         add(historyPanel.getPanel(), BorderLayout.EAST);
 
         pack();
-        setLocationRelative(null);
+        setLocationRelativeTo(null);
     }
 
     public void startNewGame(){
@@ -94,7 +94,7 @@ public class GUIChess extends JFrame{
     private void handleGameEnd(){
         gameActive = false;
         String winner = gameLogic.getWinner();
-        JOptionPane.showMessageDialog(this, "Game Over!" + winner + "wins!", "Game Finished", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Game Over! " + winner + " wins!", "Game Finished", JOptionPane.INFORMATION_MESSAGE);
 
     }
 
@@ -105,7 +105,7 @@ public class GUIChess extends JFrame{
     public void loadGame(){
         GameState loadedState = menuManager.loadGame();
         if(loadedState != null) {
-            gameLogic.loadedGameState(loadedState);
+            gameLogic.loadGameState(loadedState);
             boardGUI.updateBoard(gameLogic.getBoardState());
             historyPanel.updateMoveHistory(gameLogic.getMoveHistory());
             historyPanel.updateCapturePieces(
