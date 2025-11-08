@@ -1,6 +1,6 @@
+package Phase2_GUI;
 import javax.swing.*;
 import javax.swing.border.*;
-import java.awt.*;
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class GUIChess extends JFrame{
 
     private void initializeComponents(){
         //core game components
-        this.boardGUI = new boardGUI();
+        this.boardGUI = new BoardGUI();
         this.gameLogic = new GameLogic();
 
         //extra fetures
@@ -48,7 +48,7 @@ public class GUIChess extends JFrame{
                     boardGUI.updateBoard(gameLogic.getBoardState());
 
                     historyPanel.addMove(gameLogic.getLastMoveDescription());
-                    historyPanel.updateCapturePieces(gameLogic.getCapturedWhitePieces()), gameLogic.getCapturedBlackPieces());
+                    historyPanel.updateCapturePieces(gameLogic.getCapturedWhitePieces(), gameLogic.getCapturedBlackPieces());
 
                     if(gameLogic.isGameOver()){
                         handleGameEnd();
@@ -81,7 +81,7 @@ public class GUIChess extends JFrame{
         add(historyPanel.getPanel(), BorderLayout.EAST);
 
         pack();
-        setLocationRelative(null);
+        setLocationRelativeTo(null);
     }
 
     public void startNewGame(){
@@ -94,7 +94,7 @@ public class GUIChess extends JFrame{
     private void handleGameEnd(){
         gameActive = false;
         String winner = gameLogic.getWinner();
-        JOptionPane.showMessageDialog(this, "Game Over!" + winner + "wins!", "Game Finished", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Game Over! " + winner + " wins!", "Game Finished", JOptionPane.INFORMATION_MESSAGE);
 
     }
 
@@ -105,9 +105,13 @@ public class GUIChess extends JFrame{
     public void loadGame(){
         GameState loadedState = menuManager.loadGame();
         if(loadedState != null) {
-            gameLogic.loadedGameState(loadedState);
+            gameLogic.loadGameState(loadedState);
             boardGUI.updateBoard(gameLogic.getBoardState());
-            historyPanel.updateMoveHistory(gameLogic.getCapturedWhitePieces(), gameLogic.getCapturedBlackPieces());
+            historyPanel.updateMoveHistory(gameLogic.getMoveHistory());
+            historyPanel.updateCapturePieces(
+                gameLogic.getCapturedWhitePieces(), 
+                gameLogic.getCapturedBlackPieces()
+            );
 
             gameActive =!gameLogic.isGameOver();
         }
@@ -121,7 +125,7 @@ public class GUIChess extends JFrame{
     }
 //interface for the notification from boardGUI to gameLogic
     interface MoveListener {
-        void onMoveMade(int fromRow, in fromCol, int toRow, int toCol);
+        void onMoveMade(int fromRow, int fromCol, int toRow, int toCol);
     }
 
     //Teammate 1: All visual of the chess board 
