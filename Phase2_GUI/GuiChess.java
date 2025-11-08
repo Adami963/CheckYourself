@@ -233,6 +233,207 @@ public class GUIChess extends JFrame{
 
 //Extra Feature- Adami
 
+static class MenuManager{
+    private ChessGameGUI mainFrame;
+
+    public MenuManager(ChessGameGUI frame){
+        this.mainFrame = frame;
+    }
+    /**
+     * Main Menu Bar
+     */
+
+    public JMenuBar createMenuBar(){
+        JMenuBar menuBar = new JMenuBar();
+
+        JMenu gameMenu = new JMenu("Game");
+
+        JMenuItem newGameItem = new JMenuItem("New Game");
+        newGameItem.addActionListener(e -> mainFrame.startNewGame());
+
+        JMenuItem saveGameItem = new JMenuItem("Save Game");
+        saveGameItem.addActionListener(e -> mainFrame.saveGame());
+
+        JMenuItem loadGameItem = new JMenuItem("Load Game");
+        loadGameItem.addActionListener(e -> mainFrame.loadGame());
+
+        JMenuItem exitItem = new JMenuItem("Exit");
+        exitItem.addActionListener(e -> System.exit(0));
+        
+        gameMenu.add(newGameItem);
+        gameMenu.add(saveGameItem);
+        gameMenu.add(loadGameItem);
+
+        gameMenu.addSeparator();
+        gameMenu.add(gameMenu);
+
+        return menuBar;
+    }
+
+    /**
+     * Save Game File
+     */
+
+     public void saveGame(Gamestate gameState){
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Save Game");
+        
+        int userSelection = fileChooser.showsSaveDialog(mainFrame);
+        if (userSelection == JFileChooser.APPROVE_OPTION){
+            File fileToSave = fileChooser.getSelectedFile();
+            try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileToSave)))
+            {
+                oos.writeObject(gameState);
+                JOptionPane.showMessageDialog(mainFrame, "Game saved successfully!" + ex.getMessage(), "Save Error", JOption.ERRO_MESSAGE);
+
+            }
+        }
+     }
+/**
+ * Load Game File
+ */
+
+ public GameState loadGame(){
+    JFileChooser fileChooser = new JFileChooser();
+    fileChooser.setDialogTitle("Load Game");
+
+    int userSelection = fileChooser.showOpenDialog(mainFrame);
+    if (userSelection == JFileChooser.APPROVE_OPTION){
+        File fileToLoad = fileChooser.getSelectedFile();
+        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileToLoad)))
+        {
+            GameState state = (GameState) ois.readObject();
+            JOptionPane.showMessageDialog(mainFrame, "Game loaded successfully!", "Load Game", JOptionPane.INFORMATION_MESSAGE);
+            return state;
+        } catch(IOException | ClassNotFoundException ex){
+            JOptionPane.showMessageDialog(mainFrame, "Error loading game: " + ex.getMessage(), "Load Error", JOptionPane.ERROR_MESSAGE);
+
+        }
+    }
+    return null;
+ }
+
+ /**
+  * Game History
+  */
+  static class GameHistoryPanel{
+    private Jpanel mainPanel;
+    private JTextArea moveHistoryArea;
+    private JPanel capturePiecesPanel;
+    private JButton undoButton;
+    private ActionListener undoListener;
+
+    public GameHistoryPanel(){
+        initializeComponents();
+    }
+
+    private void initializeComponents(){
+        mainPanel = newJPanel(new BorderLayout());
+        mainPanel.setPreferredSize(new Dimension(250,600));
+        mainPanel.setBorder(BorderFactory.createTitledBorder("Game History"));
+
+        JLabel historyLabel = new JLabel("Move History:");
+        moveHistoryArea = new JTextArea(20,20);
+        moveHistoryArea.setEditable(false);
+        JScrollPane scrollPane = newJScrollPane(moveHistoryArea);
+
+        JLabel captureLabel = new JLabel("Capture Pieces: ");
+        capturedPiecesPanel = new JPanel();
+        capturedPiecesPanel.setLayout(new BoxLayout(capturedPiecesPanel));
+        JScrollPane capturedScrollPane = new JScrollPane(capturedPiecesPanel);
+        capturedScrollPane.setPreferredSize(new Dimension(230, 150));
+
+        undoButton = new JButton("Undo Move");
+        undoButton.addActionListener(e -> {
+            if(undoListener != null){
+                undoListener.actionPerformed(e);
+            }
+        });
+
+        mainPanel.add(historylabel, BorderLayout.North);
+        mainPanel.add(scrollPane, borderLayout.CENTER);
+
+        Jpanel southPanel = new JPanel(new BorderLayout());
+        southPanel.add(capturedLabel, BorderLayout.NORTH);
+        southPanel.add(capturedScrollPane, BorderLayout.CENTER);
+        southPanel.add(undoButton, BorderLayout.SOUTH);
+
+        mainPanel.add(SouthPanel, BorderLayout.South);
+
+        
+    }
+
+    public JPanel getPanel()[
+        return mainPanel;
+    ]
+
+    public void addMove(String moveDescription){
+        moveHistoryArea.append(moveDescription + "\n");
+    }
+/**
+ * Update move history
+ */
+    public void updateMoveHistory(List<String> moves){
+        moveHistoryArea.setText("");
+        for(String move : moves){
+            moveHistoryArea.append(move + "\n");
+        }
+    }
+    /**
+     * Updated Captured pieces
+     */
+
+    public void updateCapturePieces(List<Piece> capturedWhite, List<Piece> captureBlack){
+        capturedPiecesPanel.removeAll();
+        //White Pieces
+        JLabel whiteLabel = new JLabel("White captured:");
+        capturedPiecesPanel.add(whiteLabel);
+
+        JPanel whitePiecesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        for(Piece piece : capturedWhite){
+            JLabel pieceLabel = new Jlabel(piece.getSymbol());
+            pieceLabel.setFont(new font ("Serif", Font.PLAIN, 20));
+            whitePiecesPanel.add(pieceLabel);
+        }
+        capturedPiecesPanel.add(whitePiecesPanel);
+//Black Pieces
+        JLabel blackLabel = new JLabel("Black captured:");
+        capturedPiecesPanel.add(blackLabel);
+
+        JPanel blackPiecesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        for(Piece piece : capturedBlack){
+            JLabel pieceLabel = new JLabel(piece.getSymbol());
+            pieceLabel.setFont(new Font("Serif", Font.PLAIN, 20));
+            blackPiecesPanel.add(pieceLabel);
+        }
+        capturedPiecesPanel.add(blackPiecesPanel);
+
+        capturedPiecesPanel.add(blackPiecesPanel);
+
+        capturePiecesPanel.revalidate();
+        capturedPiecesPanel.repaint();
+    }
+    /**
+     * Clear History
+     */
+    public void clearHistory(){
+        moveHistoryArea.setText("");
+        capturedPiecesPanel.removeAll();
+        capturedPiecesPanel.revalidate();
+        capturedPiecesPanel.repaint();
+
+    }
+    /**
+     * Undo Button
+     */
+
+    public void setUndoListener(ActionListener listener){
+        this.undoListener = listener;
+    }
+    
+  }
+
+}
 
 
 
