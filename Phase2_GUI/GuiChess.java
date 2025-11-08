@@ -5,9 +5,11 @@ import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 //Main do not change this
-public class GUIChess extends JFrame{
+public class GuiChess extends JFrame{
     //core game
     private BoardGUI boardGUI;
     private GameLogic gameLogic;
@@ -19,7 +21,7 @@ public class GUIChess extends JFrame{
     //game state
     private boolean gameActive = true;
     //constructor
-    public GUIChess(){
+    public GuiChess(){
         super("chess Game");
         initializeComponents();
         setupGUI();
@@ -48,7 +50,7 @@ public class GUIChess extends JFrame{
                     boardGUI.updateBoard(gameLogic.getBoardState());
 
                     historyPanel.addMove(gameLogic.getLastMoveDescription());
-                    historyPanel.updateCapturePieces(gameLogic.getCapturedWhitePieces(), gameLogic.getCapturedBlackPieces());
+                    historyPanel.updateCapturedPieces(gameLogic.getCapturedWhitePieces(), gameLogic.getCapturedBlackPieces());
 
                     if(gameLogic.isGameOver()){
                         handleGameEnd();
@@ -60,11 +62,11 @@ public class GUIChess extends JFrame{
             
         
 
-        historyPanel.setUndoListener(() -> {
+        historyPanel.setUndoListener(e -> {
             if(gameLogic.undoMove()){
                 boardGUI.updateBoard(gameLogic.getBoardState());
                 historyPanel.updateMoveHistory(gameLogic.getMoveHistory());
-                historyPanel.updateCapturePieces(gameLogic.getCapturedWhitePieces(), gameLogic.getCapturedBlackPieces());
+                historyPanel.updateCapturedPieces(gameLogic.getCapturedWhitePieces(), gameLogic.getCapturedBlackPieces());
 
                 gameActive = true;
             }
@@ -105,10 +107,10 @@ public class GUIChess extends JFrame{
     public void loadGame(){
         GameState loadedState = menuManager.loadGame();
         if(loadedState != null) {
-            gameLogic.loadGameState(loadedState);
+            gameLogic.loadedGameState(loadedState);
             boardGUI.updateBoard(gameLogic.getBoardState());
             historyPanel.updateMoveHistory(gameLogic.getMoveHistory());
-            historyPanel.updateCapturePieces(
+            historyPanel.updateCapturedPieces(
                 gameLogic.getCapturedWhitePieces(), 
                 gameLogic.getCapturedBlackPieces()
             );
@@ -119,7 +121,7 @@ public class GUIChess extends JFrame{
 
     public static void main(String[] args){
         SwingUtilities.invokeLater(() -> {
-            GUIChess chessGame = new GUIChess();
+            GuiChess chessGame = new GuiChess();
             chessGame.setVisible(true);
         });
     }
@@ -234,9 +236,9 @@ public class GUIChess extends JFrame{
 //Extra Feature- Adami
 
 static class MenuManager{
-    private ChessGameGUI mainFrame;
+    private GuiChess mainFrame;
 
-    public MenuManager(ChessGameGUI frame){
+    public MenuManager(GuiChess frame){
         this.mainFrame = frame;
     }
     /**
@@ -274,18 +276,19 @@ static class MenuManager{
      * Save Game File
      */
 
-     public void saveGame(Gamestate gameState){
+     public void saveGame(GameState gameState){
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Save Game");
         
-        int userSelection = fileChooser.showsSaveDialog(mainFrame);
+        int userSelection = fileChooser.showOpenDialog(mainFrame);
         if (userSelection == JFileChooser.APPROVE_OPTION){
             File fileToSave = fileChooser.getSelectedFile();
             try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileToSave)))
             {
                 oos.writeObject(gameState);
-                JOptionPane.showMessageDialog(mainFrame, "Game saved successfully!" + ex.getMessage(), "Save Error", JOption.ERRO_MESSAGE);
-
+                JOptionPane.showMessageDialog(mainFrame, "Game saved successfully!", "Save Game", JOptionPane.INFORMATION_MESSAGE);
+            }catch(IOException ex){
+                JOptionPane.showMessageDialog(mainFrame, "Error saving game: " + ex.getMessage(), "Save Error", JOptionPane.ERROR_MESSAGE);
             }
         }
      }
@@ -313,129 +316,7 @@ static class MenuManager{
     return null;
  }
 
- /**
-  * Game History
-  */
-  static class GameHistoryPanel{
-    private Jpanel mainPanel;
-    private JTextArea moveHistoryArea;
-    private JPanel capturePiecesPanel;
-    private JButton undoButton;
-    private ActionListener undoListener;
-
-    public GameHistoryPanel(){
-        initializeComponents();
-    }
-
-    private void initializeComponents(){
-        mainPanel = newJPanel(new BorderLayout());
-        mainPanel.setPreferredSize(new Dimension(250,600));
-        mainPanel.setBorder(BorderFactory.createTitledBorder("Game History"));
-
-        JLabel historyLabel = new JLabel("Move History:");
-        moveHistoryArea = new JTextArea(20,20);
-        moveHistoryArea.setEditable(false);
-        JScrollPane scrollPane = newJScrollPane(moveHistoryArea);
-
-        JLabel captureLabel = new JLabel("Capture Pieces: ");
-        capturedPiecesPanel = new JPanel();
-        capturedPiecesPanel.setLayout(new BoxLayout(capturedPiecesPanel));
-        JScrollPane capturedScrollPane = new JScrollPane(capturedPiecesPanel);
-        capturedScrollPane.setPreferredSize(new Dimension(230, 150));
-
-        undoButton = new JButton("Undo Move");
-        undoButton.addActionListener(e -> {
-            if(undoListener != null){
-                undoListener.actionPerformed(e);
-            }
-        });
-
-        mainPanel.add(historylabel, BorderLayout.North);
-        mainPanel.add(scrollPane, borderLayout.CENTER);
-
-        Jpanel southPanel = new JPanel(new BorderLayout());
-        southPanel.add(capturedLabel, BorderLayout.NORTH);
-        southPanel.add(capturedScrollPane, BorderLayout.CENTER);
-        southPanel.add(undoButton, BorderLayout.SOUTH);
-
-        mainPanel.add(SouthPanel, BorderLayout.South);
-
-        
-    }
-
-    public JPanel getPanel()[
-        return mainPanel;
-    ]
-
-    public void addMove(String moveDescription){
-        moveHistoryArea.append(moveDescription + "\n");
-    }
-/**
- * Update move history
- */
-    public void updateMoveHistory(List<String> moves){
-        moveHistoryArea.setText("");
-        for(String move : moves){
-            moveHistoryArea.append(move + "\n");
-        }
-    }
-    /**
-     * Updated Captured pieces
-     */
-
-    public void updateCapturePieces(List<Piece> capturedWhite, List<Piece> captureBlack){
-        capturedPiecesPanel.removeAll();
-        //White Pieces
-        JLabel whiteLabel = new JLabel("White captured:");
-        capturedPiecesPanel.add(whiteLabel);
-
-        JPanel whitePiecesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        for(Piece piece : capturedWhite){
-            JLabel pieceLabel = new Jlabel(piece.getSymbol());
-            pieceLabel.setFont(new font ("Serif", Font.PLAIN, 20));
-            whitePiecesPanel.add(pieceLabel);
-        }
-        capturedPiecesPanel.add(whitePiecesPanel);
-//Black Pieces
-        JLabel blackLabel = new JLabel("Black captured:");
-        capturedPiecesPanel.add(blackLabel);
-
-        JPanel blackPiecesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        for(Piece piece : capturedBlack){
-            JLabel pieceLabel = new JLabel(piece.getSymbol());
-            pieceLabel.setFont(new Font("Serif", Font.PLAIN, 20));
-            blackPiecesPanel.add(pieceLabel);
-        }
-        capturedPiecesPanel.add(blackPiecesPanel);
-
-        capturedPiecesPanel.add(blackPiecesPanel);
-
-        capturePiecesPanel.revalidate();
-        capturedPiecesPanel.repaint();
-    }
-    /**
-     * Clear History
-     */
-    public void clearHistory(){
-        moveHistoryArea.setText("");
-        capturedPiecesPanel.removeAll();
-        capturedPiecesPanel.revalidate();
-        capturedPiecesPanel.repaint();
-
-    }
-    /**
-     * Undo Button
-     */
-
-    public void setUndoListener(ActionListener listener){
-        this.undoListener = listener;
-    }
-    
-  }
-
-}
+ 
 
 
-
-
-}
+}}

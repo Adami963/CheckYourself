@@ -9,10 +9,10 @@ import java.io.*;
  * - Does not know how the game works internally; it just asks GUIChess to perform actions.
  */
 public class MenuManager {
-    private final GUIChess parent;
+    private final GuiChess parent;
 
     //CONSTRUCTOR
-    public MenuManager(GUIChess parent) {
+    public MenuManager(GuiChess parent) {
         this.parent = parent;
     }//end of MenuManager
 
@@ -58,7 +58,7 @@ public class MenuManager {
      * Save the game to a file using Java serialization.
      * Called by GUIChess after it fetches a GameState from GameLogic.
      */
-    public void saveGame(GUIChess.GameState state) {
+    public void saveGame(GuiChess.GameState state) {
         //open a file
         JFileChooser fc = new JFileChooser();
         //if  'Save' clicked
@@ -78,14 +78,14 @@ public class MenuManager {
      * Load a previously saved game from a file using Java serialization.
      * Returns the GameState object (or null if canceled/failed).
      */
-    public GUIChess.GameState loadGame() {
+    public GuiChess.GameState loadGame() {
         //let user pick a file to open
         JFileChooser fc = new JFileChooser();
         //clicked 'open'
         if (fc.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION) {
            //try to read 
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fc.getSelectedFile()))) {
-                return (GUIChess.GameState) ois.readObject();
+                return (GuiChess.GameState) ois.readObject();
             } catch (IOException | ClassNotFoundException ex) {
                 // If anything goes wrong, show an error
                 JOptionPane.showMessageDialog(parent, "Load failed: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

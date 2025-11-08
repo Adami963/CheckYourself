@@ -14,7 +14,7 @@ public class BoardGUI {
     private final JPanel boardPanel = new JPanel(new GridLayout(8,8));
     private final JButton[][] squares = new JButton[8][8];
 
-    private GUIChess.MoveListener moveListener; 
+    private GuiChess.MoveListener moveListener; 
     private int selectedRow = -1, selectedCol = -1;     // -1 = nothing was selected
 
     //CONSTRUCTOR
@@ -26,20 +26,20 @@ public class BoardGUI {
         return boardPanel;
     }//end of getBoardPanel
 
-    public void setMoveListener(GUIChess.MoveListener listener){
+    public void setMoveListener(GuiChess.MoveListener listener){
         this.moveListener = listener;
     }//end of setMoveListener
 
     public void initializeBoard(){}//end of initializeBoard
 
     //Paint piece symbols onto squares from the current board state
-    public void updateBoard(GUIChess.Piece[][] state){
+    public void updateBoard(GuiChess.Piece[][] state){
         for(int r = 0; r < 8; r++){
             for(int c = 0; c < 8; c++){
-                GUIChess.Piece p = state[r][c];
+                GuiChess.Piece p = state[r][c];
                 JButton b = squares[r][c];
                 b.setText(p == null ? "" : p.getSymbol());
-                b.setForeground(p == null ? Color.BLACK : (p.getColor() == GUIChess.Piece.Color.WHITE ? Color.WHITE : Color.BLACK));
+                b.setForeground(p == null ? Color.BLACK : (p.getColor() == GuiChess.Piece.Color.WHITE ? Color.WHITE : Color.BLACK));
                 b.setFont(b.getFont().deriveFont(Font.PLAIN, 36f));
             }//end of for col
         }//end of for row
