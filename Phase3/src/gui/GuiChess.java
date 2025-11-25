@@ -1,4 +1,4 @@
-package Phase2_GUI;
+package Phase3.Phase2_GUI;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
@@ -147,7 +147,7 @@ public class GuiChess extends JFrame{
 
 //both teammates can use this  data structures
     
-    public static class Piece implements Serializable {
+    static class Piece implements Serializable {
         private static final long serialVersionUID = 1L;
         
         public enum Type {
@@ -189,7 +189,7 @@ public class GuiChess extends JFrame{
     }
     
     
-    public static class Move implements Serializable {
+    static class Move implements Serializable {
         private static final long serialVersionUID = 1L;
         int fromRow, fromCol, toRow, toCol;
         Piece pieceMoved;
