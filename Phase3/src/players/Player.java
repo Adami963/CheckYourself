@@ -1,14 +1,17 @@
 package Phase3.src.players;
 
-import pieces.Color;
-import pieces.Piece;
+//import pieces.Color;
+//import pieces.Piece;
 import Utils.Notation;
+import Phase3.src.pieces.Color;
+import Phase3.src.pieces.Piece;
+import Phase3.src.board.Board;
 
 import java.util.Scanner;
 
-import board.Board;
-import board.Position;
-
+//import board.Board;
+//import board.Position;
+import Phase3.src.board.Position;
 /*
  * Player-Driven console
  *      - Ask the user to type a move in the exact format: [FROM][TO]
@@ -32,9 +35,9 @@ public class Player {
     Scanner scanner = new Scanner(System.in); 
 
     //CONSTRUCTOR
-    public Player(Color color, Board board, Scanner scanner){
-        this.color = color;
-        this.board = board;
+    public Player(Phase3.src.pieces.Color white, Phase3.src.board.Board board2, Scanner scanner){
+        this.color = white;
+        this.board = board2;
         this.scanner = scanner;
     }//end of public Player
 

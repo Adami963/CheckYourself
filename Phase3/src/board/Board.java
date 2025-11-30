@@ -1,6 +1,7 @@
 package Phase3.src.board;
 
-import pieces.*;
+import Phase3.src.pieces.*;;
+
 
 /**
  * 8x8 board that stores pieces and can print itself.

@@ -1,6 +1,16 @@
 package Phase3.src.gui;
 import java.util.*;
+
+
+
 import java.io.Serializable;
+
+import Phase3.src.board.Board;
+import Phase3.src.board.Position;
+import Phase3.src.pieces.*;
+
+
+
 
 /**
  * Teammate 2: Game state + rules (Phase 2: minimal logic).
@@ -13,6 +23,8 @@ import java.io.Serializable;
  * Uses GUIChess.Piece, GUIChess.Move, GUIChess.GameState types from GUIChess.java.
  */
 public class GameLogic {
+//Dev-A
+    private Board chessBoard = new Board();
 
     private GuiChess.Piece[][] board = new GuiChess.Piece[8][8];
     private boolean isWhiteTurn = true;
@@ -32,12 +44,41 @@ public class GameLogic {
         capturedWhite.clear();
         capturedBlack.clear();
         setupStartingPosition();
+        //lastMoveDescription = "New game started.";
+
+        //Dev-A Modification
+        chessBoard = new Board(); 
+
+        SyncBoards();
         lastMoveDescription = "New game started.";
     }
 
+//Dev-A modification
     public boolean handleMove(int fromRow, int fromCol, int toRow, int toCol) {
         if (gameOver) return false;
         if (!inBounds(fromRow, fromCol) || !inBounds(toRow, toCol)) return false;
+
+        //Dev-A
+        Position fromPos = new Position(fromRow, fromCol);
+        Position toPos = new Position(toRow, toCol);
+
+        Piece phase1Piece = chessBoard.getPiece(fromPos);
+        if (phase1Piece == null) return false;
+
+        if((isWhiteTurn && phase1Piece.getColor() != Color.WHITE)||
+        (!isWhiteTurn && phase1Piece.getColor() !=Color.BLACK)){
+            return false;
+        }
+
+        List<Position> possibleMoves = phase1Piece.possibleMove();
+        if(!possibleMoves.contains(toPos)){
+            return false;
+        }
+
+        Piece targetPiece = chessBoard.getPiece(toPos);
+        if(targetPiece != null && targetPiece.getColor() == phase1Piece.getColor()){
+            return false;
+        }
 
         GuiChess.Piece mover = board[fromRow][fromCol];
         if (mover == null) return false;
@@ -49,6 +90,8 @@ public class GameLogic {
         if (target != null && target.getColor() == mover.getColor()) {
             return false;
         }
+
+        chessBoard.movePiece(fromPos, toPos);//Dev-A
 
         board[toRow][toCol] = mover;
         board[fromRow][fromCol] = null;
@@ -76,12 +119,72 @@ public class GameLogic {
         return true;
     }
 
+    private void SyncBoards(){
+
+        board = new GuiChess.Piece[8][8];
+
+        for(int r = 0; r < 8; r++){
+            for(int c = 0; c < 8; c++){
+                Position pos = new Position(r, c);
+                Piece phase1Piece = chessBoard.getPiece(pos);
+
+                if(phase1Piece != null){
+                    board[r][c] = convertToGuiPiece(phase1Piece);
+                }
+            }
+        }
+    }
+
+    private GuiChess.Piece convertToGuiPiece(Piece phase1Piece){
+        GuiChess.Piece.Color color = (phase1Piece.getColor() == Color.WHITE) ? GuiChess.Piece.Color.WHITE : GuiChess.Piece.Color.BLACK;
+
+        GuiChess.Piece.Type type;
+
+        if(phase1Piece instanceof Pawn){
+            type = GuiChess.Piece.Type.PAWN;
+        }else if (phase1Piece instanceof Rook){
+            type = GuiChess.Piece.Type.ROOK;
+        } else if (phase1Piece instanceof Knight){
+            type = GuiChess.Piece.Type.KNIGHT;
+        }else if (phase1Piece instanceof Bishop){
+            type = GuiChess.Piece.Type.BISHOP;
+        }else if (phase1Piece instanceof Queen){
+            type = GuiChess.Piece.Type.QUEEN;
+        }else if (phase1Piece instanceof King){
+            type = GuiChess.Piece.Type.KING;
+        } else{
+            type = GuiChess.Piece.Type.PAWN;
+        }
+
+        return new GuiChess.Piece(type,color);
+
+    }
+
     public boolean undoMove() {
         if (moveHistory.isEmpty()) return false;
         GuiChess.Move mv = moveHistory.remove(moveHistory.size() - 1);
 
+        Position fromPos = new Position(mv.fromRow, mv.fromCol);
+        Position toPos = new Position(mv.toRow, mv.toCol);
+
+   
+
+        Piece phase1Piece = chessBoard.getPiece(toPos);
+        if(phase1Piece != null){
+            chessBoard.setPiece(fromPos, phase1Piece);
+            phase1Piece.setPosition(fromPos);
+            chessBoard.setPiece(toPos, null);
+        }
+
+        if(mv.pieceCaptured != null){
+            Piece restoredPiece = convertToPhase1Piece(mv.pieceCaptured, toPos);
+            chessBoard.setPiece(toPos, restoredPiece);
+        }
+
         board[mv.fromRow][mv.fromCol] = mv.pieceMoved;
         board[mv.toRow][mv.toCol] = null;
+
+
 
         if (mv.pieceCaptured != null) {
             board[mv.toRow][mv.toCol] = mv.pieceCaptured;
@@ -99,6 +202,19 @@ public class GameLogic {
                 : "Undo: " + describeMove(moveHistory.get(moveHistory.size() - 1));
         return true;
     }
+private Piece convertToPhase1Piece(GuiChess.Piece guiPiece,Position position){
+    Color color = (guiPiece.getColor() == GuiChess.Piece.Color.WHITE) ? Color.WHITE : Color.BLACK;
+
+    switch(guiPiece.getType()){
+        case PAWN: return new Pawn(color, position);
+        case ROOK: return new Rook(color, position);
+        case KNIGHT: return new Knight(color, position);
+        case BISHOP: return new Bishop(color, position);
+        case QUEEN: return new Queen(color, position);
+        case KING: return new King(color, position);
+        default: return new Pawn(color, position);
+    }
+}
 
     public GuiChess.Piece[][] getBoardState() { return copyBoard(board); }
     public String getLastMoveDescription() { return lastMoveDescription; }
@@ -145,12 +261,16 @@ public class GameLogic {
     }
     private static void removeLastFromList(List<GuiChess.Piece> list, GuiChess.Piece p) {
         for (int i = list.size() - 1; i >= 0; i--) {
-            if (list.get(i) == p) { list.remove(i); return; }
+            GuiChess.Piece current = list.get(i);
+
+            if (list.get(i) == p) { list.remove(i); 
+                return; }
         }
         for (int i = list.size() - 1; i >= 0; i--) {
-            GuiChess.Piece q = list.get(i);
-            if (q.getType() == p.getType() && q.getColor() == p.getColor()) {
-                list.remove(i); return;
+            GuiChess.Piece current = list.get(i);
+            if (current.getType() == current.getType() && current.getColor() == p.getColor()) {
+                list.remove(i); 
+                return;
             }
         }
     }
