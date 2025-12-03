@@ -1,0 +1,163 @@
+       static class BoardGUI {
+
+        private static final int BOARD_SIZE = 8;
+
+        // colors for board
+        private static final java.awt.Color LIGHT_SQUARE =
+                new java.awt.Color(240, 217, 181);
+        private static final java.awt.Color DARK_SQUARE =
+                new java.awt.Color(181, 136, 99);
+        private static final java.awt.Color SELECTED_TINT =
+                new java.awt.Color(255, 255, 0, 120);
+
+        private final JPanel boardPanel;
+        private Piece[][] board = new Piece[BOARD_SIZE][BOARD_SIZE];
+
+        // current selection
+        private int selectedRow = -1;
+        private int selectedCol = -1;
+
+        // callback into GUIChess -> GameLogic
+        private MoveListener moveListener;
+
+        BoardGUI() {
+            // custom drawing panel
+            boardPanel = new JPanel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+
+                    int size = Math.min(getWidth(), getHeight());
+                    int squareSize = size / BOARD_SIZE;
+
+                    for (int row = 0; row < BOARD_SIZE; row++) {
+                        for (int col = 0; col < BOARD_SIZE; col++) {
+
+                            boolean light = ((row + col) % 2 == 0);
+                            java.awt.Color squareColor = light ? LIGHT_SQUARE : DARK_SQUARE;
+                            g.setColor(squareColor);
+                            g.fillRect(col * squareSize, row * squareSize,
+                                       squareSize, squareSize);
+
+                            // highlight selected square
+                            if (row == selectedRow && col == selectedCol) {
+                                g.setColor(SELECTED_TINT);
+                                g.fillRect(col * squareSize, row * squareSize,
+                                           squareSize, squareSize);
+                            }
+
+                            // draw piece (if any)
+                            Piece p = (board != null) ? board[row][col] : null;
+                            if (p != null) {
+                                String symbol = p.getSymbol();
+                                if (symbol != null) {
+                                    float fontSize = (float)(squareSize * 0.6);
+                                    g.setFont(g.getFont().deriveFont(fontSize));
+                                    FontMetrics fm = g.getFontMetrics();
+
+                                    int textWidth = fm.stringWidth(symbol);
+                                    int textHeight = fm.getAscent() - fm.getDescent();
+
+                                    int textX = col * squareSize +
+                                                (squareSize - textWidth) / 2;
+                                    int textY = row * squareSize +
+                                                (squareSize + textHeight) / 2;
+
+                                    // simple contrast: dark pieces look fine as black;
+                                    // light pieces we can still draw as black since background is light.
+                                    g.setColor(java.awt.Color.BLACK);
+                                    g.drawString(symbol, textX, textY);
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            boardPanel.setPreferredSize(new Dimension(640, 640));
+
+            // mouse click -> selection / move
+            boardPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent e) {
+                    if (moveListener == null) return;
+
+                    int size = Math.min(boardPanel.getWidth(), boardPanel.getHeight());
+                    if (size <= 0) return;
+
+                    int squareSize = size / BOARD_SIZE;
+                    int col = e.getX() / squareSize;
+                    int row = e.getY() / squareSize;
+
+                    if (row < 0 || row >= BOARD_SIZE || col < 0 || col >= BOARD_SIZE) {
+                        return;
+                    }
+
+                    // First click: select a piece
+                    if (selectedRow == -1 && selectedCol == -1) {
+                        if (board != null && board[row][col] != null) {
+                            selectedRow = row;
+                            selectedCol = col;
+                            boardPanel.repaint();
+                        }
+                    } else {
+                        // Second click: attempt a move
+                        int fromRow = selectedRow;
+                        int fromCol = selectedCol;
+
+                        selectedRow = -1;
+                        selectedCol = -1;
+                        boardPanel.repaint();
+
+                        moveListener.onMoveMade(fromRow, fromCol, row, col);
+                    }
+                }
+            });
+        }
+
+        // called from GUIChess.setupComponentConnections()
+        void setMoveListener(MoveListener listener) {
+            this.moveListener = listener;
+        }
+
+        // called from GUIChess.setupGUI()
+        JPanel getBoardPanel() {
+            return boardPanel;
+        }
+
+        /**
+         * Called from GUIChess.startNewGame().
+         * We don't create pieces here; GameLogic owns the real board.
+         * This just clears selection and repaints.
+         */
+        void initializeBoard() {
+            selectedRow = -1;
+            selectedCol = -1;
+            boardPanel.repaint();
+        }
+
+        /**
+         * Called whenever GameLogic changes board state:
+         * - after a successful move
+         * - after undo
+         * - after loading a game
+         */
+        void updateBoard(Piece[][] newBoard) {
+            if (newBoard == null) return;
+            if (board == null
+                    || board.length != BOARD_SIZE
+                    || board[0].length != BOARD_SIZE) {
+                board = new Piece[BOARD_SIZE][BOARD_SIZE];
+            }
+
+            for (int r = 0; r < BOARD_SIZE; r++) {
+                for (int c = 0; c < BOARD_SIZE; c++) {
+                    board[r][c] = newBoard[r][c];
+                }
+            }
+
+            boardPanel.repaint();
+        }
+    }
+
+
