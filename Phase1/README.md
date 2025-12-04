@@ -14,11 +14,15 @@ This version runs completely in the terminal and handles all of the core game lo
 Phase 1 sets up the basic chess environment:
 
 • Creates an 8×8 board with the standard chess starting layout
+
 • Alternates turns (White always moves first)
+
 • Prints the board in ASCII using Board.display()
+
 • Runs the gameplay loop until:
 
 - A player types QUIT, or
+
 - The game naturally ends
 
 ### Pieces & Movement
@@ -38,34 +42,46 @@ Each piece stores its position and color, and uses polymorphism to provide its d
 ### Player Input
 
 • Both players share a single Scanner for reading input
+
 • Players manually type their moves
+
 • Typing QUIT immediately ends the game
 
 ### Packages Used
 
 • board — Board, Game, and Position
+
 • pieces — All chess piece classes
+
 • players — Player logic and input handling
 
 ## Directory Structure
 
 Phase1/
+
 App.java # Main application entry point
+
 board/
-Board.java
-Game.java
-Position.java
+
+    Board.java
+    Game.java
+    Position.java
+    
 pieces/
-Piece.java
-Pawn.java
-Rook.java
-Knight.java
-Bishop.java
-Queen.java
-King.java
-Color.java
+
+    Piece.java
+    Pawn.java
+    Rook.java
+    Knight.java
+    Bishop.java
+    Queen.java
+    King.java
+    Color.java
+    
 players/
-Player.java
+
+    Player.java
+    
 README.md <-- We are here
 
 App.java is responsible for starting the game by calling Game.start() and then Game.play().
@@ -102,4 +118,5 @@ This will start the text-based chess game in the terminal.
 **Type QUIT anytime to exit the game.**
 
 • When the loop ends, the program prints:
+
 -- GAME OVER. Thank you for playing!
