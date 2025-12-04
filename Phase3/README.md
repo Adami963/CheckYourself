@@ -20,25 +20,25 @@ This stage builds on the GUI from Phase 2 but cleans everything up, improves the
 
 ## Directory Structure (Phase 3)
 
-Phase3/
-
-src/
-
-board/ # Board logic and data structures
-
-gui/ # All GUI components (Swing)
-
-pieces/ # All chess piece classes
-
-players/ # Player-related classes
-
-App.java # Application helper
-
-Main.java # Entry point for Phase 3
-
-Notation.java # Handles move notation / algebraic formatting
-
-Tracker.java # Records move history
+  Phase3/
+  
+      src/
+      
+        board/     # Board logic and data structures
+        
+        gui/       # All GUI components (Swing)
+        
+        pieces/     # All chess piece classes
+        
+        players/     # Player-related classes
+        
+        App.java       # Application helper
+        
+        Main.java       # Entry point for Phase 3
+        
+        Notation.java       # Handles move notation / algebraic formatting
+        
+        Tracker.java       # Records move history
 
 # How to Compile & Run Phase 3
 
