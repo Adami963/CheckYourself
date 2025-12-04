@@ -1,6 +1,6 @@
 package Phase3.src;
 
-import board.Game;
+import Phase3.src.board.Game;
 
 /*
  * PURPOSE: 

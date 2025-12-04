@@ -1,4 +1,5 @@
-package Phase3.Phase2_GUI;
+package Phase3.src.gui;
+
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;

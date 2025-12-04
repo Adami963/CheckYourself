@@ -1,14 +1,12 @@
 package Phase3.src.gui;
 
-
 import javax.swing.*;
-
-import Phase2_GUI.GuiChess.Move;
-import Phase2_GUI.GuiChess.Piece;
-
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.List;
+
+import Phase3.src.gui.GuiChess.Move;
+import Phase3.src.gui.GuiChess.Piece;
 
 /**
  * GameHistoryPanel.java
@@ -131,8 +129,4 @@ public class GameHistoryPanel {
         this.undoListener = listener;
     }
 
-    public void setUndoListener(Object listener) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setUndoListener'");
-    }
 }

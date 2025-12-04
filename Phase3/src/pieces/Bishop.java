@@ -6,7 +6,7 @@ package Phase3.src.pieces;
 import java.util.ArrayList;
 import java.util.List;
 
-import board.Position;
+import Phase3.src.board.Position;
 
 
 public class Bishop extends Piece {
