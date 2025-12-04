@@ -19,7 +19,7 @@ public class GuiChess extends JFrame{
     private boolean gameActive = true;
     //constructor
     public GuiChess(){
-        super("chess Game");
+        super("Chess Game - PHASE 3");
         initializeComponents();
         setupGUI();
         startNewGame();
@@ -85,7 +85,10 @@ public class GuiChess extends JFrame{
 
     public void startNewGame(){
         gameLogic.initializeNewGame();
-        boardGUI.initializeBoard();
+
+        // draw the pieces on the board right away
+        boardGUI.updateBoard(gameLogic.getBoardState());
+
         historyPanel.clearHistory();
         gameActive = true;
     }
