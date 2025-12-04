@@ -27,15 +27,15 @@ All player interaction now happens through GUI elements instead of typing comman
 
 Phase2_GUI/
 
-GuiChess.java         # Main class containing main() to launch GUI
-
-BoardGUI.java         # Visual board component (JPanel/JButtons)
-
-GameHistoryPanel.java         # Move history display (scrollable panel)
-
-GameLogic.java         # Logic controller connecting board and UI
-
-MenuManager.java         # Menu bar, actions, and UI controls
+        GuiChess.java         # Main class containing main() to launch GUI
+        
+        BoardGUI.java         # Visual board component (JPanel/JButtons)
+        
+        GameHistoryPanel.java         # Move history display (scrollable panel)
+        
+        GameLogic.java         # Logic controller connecting board and UI
+        
+        MenuManager.java         # Menu bar, actions, and UI controls
 
 ## How to Compile & Run (Terminal)
 
