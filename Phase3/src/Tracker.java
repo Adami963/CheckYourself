@@ -33,7 +33,7 @@ public class Tracker {
         return removeCount;
     }
 
-     public int getRemainingItems(int rem){
+     public int getRemainingItems(){
         //will use initCount + addItems - completed to identify what is left
         return rem;
     }
@@ -44,7 +44,7 @@ public class Tracker {
 
     public boolean getCompleted(){
         //will display whether item wass completed
-        return false;
+        return completed;
     }
     
     //SETTERS

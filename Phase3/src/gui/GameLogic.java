@@ -1,6 +1,6 @@
 package Phase3.src.gui;
 import java.util.*;
-import java.io.Serializable;
+
 
 /**
  * Teammate 2: Game state + rules (Phase 2: minimal logic).
