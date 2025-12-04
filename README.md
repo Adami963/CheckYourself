@@ -29,27 +29,41 @@ Here’s a quick overview of each phase:
 
 ## Directory Structure
 
-Phase1/
-src/
-README.md
-
-Phase2/
-src/
-README.md
-
-Phase3/
-src/
-board/
-gui/
-pieces/
-players/
-App.java
-Main.java
-Notation.java
-Tracker.java
-README.md
-
-README.md <-- This file
+   Phase1/
+   
+      src/
+      
+      README.md
+   
+   Phase2/
+   
+      src/
+      
+      README.md
+   
+   Phase3/
+   
+      src/
+      
+      board/
+      
+      gui/
+      
+      pieces/
+      
+      players/
+      
+      App.java
+      
+      Main.java
+      
+      Notation.java
+      
+      Tracker.java
+      
+      README.md
+   
+   README.md <-- This file
 
 Each phase contains its own README that explains how to run it and what changed from the previous version.
 
@@ -77,9 +91,7 @@ java Phase2_GUI.GuiChess
 
 cd Phase3
 
-# optional -- clears previous class files
-
-find src -name "\*.class" -delete
+find src -name "\*.class" -delete           **# optional -- clears previous class files**
 
 javac $(find src -name "\*.java")
 
