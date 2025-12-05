@@ -1,12 +1,8 @@
 package Phase2_GUI;
 import javax.swing.*;
-import javax.swing.border.*;
 import java.awt.*;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 //Main do not change this
 public class GuiChess extends JFrame{

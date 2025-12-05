@@ -46,37 +46,42 @@ public class BoardGUI {
     }//end of updateBoard
 
     // Build the 8×8 grid: create each JButton, set colors, and attach a click handler.
-    private void buildBoardButtons(){
-        boolean light = true;
-        for (int r = 0; r < 8; r++){
-            for(int c =0; c < 8; c++){
-                final int rr = r, 
-                             cc = c;
-                JButton btn = new JButton();
+private void buildBoardButtons(){
+    boolean light = true;
+    for (int r = 0; r < 8; r++){
+        for (int c = 0; c < 8; c++){
+            final int rr = r;
+            final int cc = c;
+            JButton btn = new JButton();
 
-                //don't drae the dotted focus outline when clicked
-                btn.setFocusPainted(false);
-                // Remove default padding so symbols sit centered and large
-                btn.setMargin(new Insets(0, 0, 0, 0));
-                // Set alternating light/dark colors to look like a chessboard
-                btn.setBackground(light ? new Color(234,235,200): new Color(119,149,86) );
-                // When clicked, call our handler with the row/col that was clicked
-                btn.addActionListener(e -> onSquareClick(rr, cc));
+            // Make sure background colors actually show up
+            btn.setOpaque(true);
+            btn.setContentAreaFilled(true);
+            btn.setBorderPainted(false);
+            btn.setFocusPainted(false);
 
-                squares[r][c] = btn;
-                boardPanel.add(btn);
+            // Remove default padding so symbols sit centered and large
+            btn.setMargin(new Insets(0, 0, 0, 0));
+            
+            Color lightSquare = Color.LIGHT_GRAY;
+            Color darkSquare  = Color.DARK_GRAY;  
+            btn.setBackground(light ? lightSquare : darkSquare);
 
-                // Flip color for the next square
-                light = !light;
-            }//end of for col
+            // When clicked, call our handler with the row/col that was clicked
+            btn.addActionListener(e -> onSquareClick(rr, cc));
 
-            // Flip starting color at the start of each row so the checker pattern continues
+            squares[r][c] = btn;
+            boardPanel.add(btn);
+
+            // Flip color for the next square
             light = !light;
-        }//end of for row
-
-        // Give the whole board a little padding from the window edges
-        boardPanel.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
-    }//end of buildBoardButtons
+        }
+        // Flip starting color at the start of each row so the checker pattern continues
+        light = !light;
+    }
+    // Give the whole board a little padding from the window edges
+    boardPanel.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+}
 
     // Handle clicks: first click selects the FROM square; second click sends FROM->TO to GUIChess.
     private void onSquareClick(int row, int col){

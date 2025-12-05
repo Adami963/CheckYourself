@@ -1,12 +1,13 @@
 package Phase3.src.players;
 
-//import pieces.Color;
-//import pieces.Piece;
-import Utils.Notation;
+//import Phase3.src.pieces.Color;
+//import Phase3.src.pieces.Piece;
+import Phase3.src.Notation;
 import Phase3.src.pieces.Color;
 import Phase3.src.pieces.Piece;
 import Phase3.src.board.Board;
-
+import Phase3.src.board.Board;
+import Phase3.src.board.Position;
 import java.util.Scanner;
 
 //import board.Board;

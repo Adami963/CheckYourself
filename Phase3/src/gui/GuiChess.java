@@ -1,12 +1,8 @@
 package Phase3.src.gui;
 import javax.swing.*;
-import javax.swing.border.*;
 import java.awt.*;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 //Main do not change this
 public class GuiChess extends JFrame{
@@ -22,7 +18,7 @@ public class GuiChess extends JFrame{
     private boolean gameActive = true;
     //constructor
     public GuiChess(){
-        super("chess Game");
+        super("Chess Game - PHASE 3");
         initializeComponents();
         setupGUI();
         startNewGame();
@@ -88,7 +84,10 @@ public class GuiChess extends JFrame{
 
     public void startNewGame(){
         gameLogic.initializeNewGame();
-        boardGUI.initializeBoard();
+
+        // draw the pieces on the board right away
+        boardGUI.updateBoard(gameLogic.getBoardState());
+
         historyPanel.clearHistory();
         gameActive = true;
     }
