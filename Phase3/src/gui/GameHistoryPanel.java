@@ -1,6 +1,13 @@
 package Phase3.src.gui;
 
 import javax.swing.*;
+
+
+//import Phase3.src.gui.*;
+//import Phase3.src.gui.GuiChess;
+import Phase3.src.gui.GuiChess.Move;
+import Phase3.src.gui.GuiChess.Piece;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.List;

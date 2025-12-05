@@ -3,6 +3,7 @@
  * Does the Diagonal movement
  */
 package Phase3.src.pieces;
+
 import java.util.ArrayList;
 import java.util.List;
 
