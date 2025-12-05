@@ -2,7 +2,7 @@ package Phase3.src.pieces;
 
 import java.util.List;
 
-import board.Position;
+import Phase3.src.board.*;
 
 /**
  * represents the chess piece

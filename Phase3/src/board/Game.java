@@ -1,8 +1,10 @@
 package Phase3.src.board;
 
-import players.Player;
-import pieces.Color;
-
+import Phase3.src.players.*;
+import Phase3.src.pieces.*;
+//import players.Player;
+//import pieces.Color;
+import Phase3.src.pieces.Color;
 import java.util.Scanner;
 
 /*
